@@ -4,7 +4,24 @@ from flask import render_template
 
 @app.route('/')
 def land():
-    return render_template('index.html')
+    teachers = [
+        {
+            'name': 'Brendan',
+            'subject': 'Front end stuff',
+            'age' : 654
+        },
+        {
+            'name' : 'Rachel',
+            'subject': 'student relations',
+            'age' : 980
+        },
+        {
+            'name' : 'Brandt',
+            'subject': 'lecture',
+            'age' : 765
+        }
+    ]
+    return render_template('index.html', teach_list=teachers)
 
 @app.route('/home')
 def home():
