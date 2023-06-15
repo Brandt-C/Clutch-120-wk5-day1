@@ -1,3 +1,6 @@
 body {
-    background-color: rgb(139, 96, 96);
+    background-color: rgb(190, 190, 190);
+}
+#logo-img {
+    max-width: 75px;
 }
