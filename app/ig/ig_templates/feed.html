@@ -7,15 +7,14 @@
 
 <div class="container">
 
-    {% for p in posts %}
+    {% for p in posts %} 
     <div class="card" style="width: 18rem;">
-        <img src="{{p.img_url}}" class="card-img-top" alt="{{p.title}}">
+        <a href="{{url_for('ig.ind_post', post_id=p.id)}}"><img src="{{p.img_url}}" class="card-img-top" alt="{{p.title}}"></a>
         <div class="card-body">
           <h5 class="card-title">{{p.title}}</h5>
           <p class="card-text">{{p.body}}</p>
           <p class="card-text">{{p.author.username}}</p>
           <p class="card-text">{{p.date_created}}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
     {% endfor %}
