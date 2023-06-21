@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required
 
 from .forms import CreatePostForm, UpdatePostForm
-from ..models import Post
+from ..models import Post, User
 
 ig = Blueprint('ig', __name__, template_folder='ig_templates' )
 
@@ -28,7 +28,7 @@ def feed():
     # posts = Post.query.all()
     # posts = Post.query.order_by(Post.date_created.desc()).all()
     posts = Post.query.order_by(Post.date_created).all()[::-1]
-    print(posts)
+    # print(posts)
 
     return render_template('feed.html', posts=posts)
 
@@ -78,5 +78,41 @@ def delete_post(post_id):
     else:
         flash("Can't delete what's not yours!", 'danger')
     return redirect(url_for('ig.feed'))
+
+@ig.route('/follow/<int:user_id>')
+@login_required
+def follow(user_id):
+    u = User.query.get(user_id)
+    if u:
+        current_user.follow(u)
+        flash(f"You're now following {u.username}", 'success')
+    else:
+        flash('User does not exist!', 'danger')
+    return redirect(url_for('land'))
+
+@ig.route('/unfollow/<int:user_id>')
+@login_required
+def unfollow(user_id):
+    u = User.query.get(user_id)
+    if u:
+        current_user.unfollow(u)
+        flash(f"You're no longer following {u.username}", 'warning')
+    else:
+        flash('User does not exist!', 'danger')
+    return redirect(url_for('land'))
+
+@ig.route('/post/like/<int:post_id>')
+@login_required
+def like(post_id):
+    post = Post.query.get(post_id)
+    my_likes = current_user.liked
+    print(my_likes)
+    if post in my_likes:
+        flash(f"You've already liked this one, you can't like it any more!", 'warning')
+    else:
+        post.like_post(current_user)
+        flash("you've added a like to this post!", 'success')
+    return redirect(url_for('ig.feed'))
+
 
 

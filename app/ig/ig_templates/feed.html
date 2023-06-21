@@ -14,7 +14,7 @@
           <h5 class="card-title">{{p.title}}</h5>
           <p class="card-text">{{p.body}}</p>
           <p class="card-text">{{p.author.username}}</p>
-          <p class="card-text">{{p.date_created}}</p>
+          <p class="card-text">{{ moment(p.date_created).fromNow() }}</p>
         </div>
       </div>
     {% endfor %}
