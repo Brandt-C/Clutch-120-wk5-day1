@@ -14,6 +14,7 @@
             <p class="card-text">{{p.body}}</p>
             <p class="card-text">{{p.author.username}}</p>
             <p class="card-text">{{ moment(p.date_created).fromNow() }}</p>
+            <p class="card-text">Likes: {{p.likes}}</p>
 
             {% if p.user_id == current_user.id %}
             <a href="/post/update/{{p.id}}" class="btn btn-warning">Update</a>
@@ -42,6 +43,16 @@
                     </div>
                 </div>
             </div>
+            {% elif p.user_id != current_user.id %}
+                {% if p.like_flag %}
+                <a href="/post/unlike/{{p.id}}" class="btn btn-warning">UNLike!</a>
+
+                {% else %}
+
+                <a href="/post/like/{{p.id}}" class="btn btn-primary">Like!</a>
+                {% endif %}
+
+            
 
             {% endif %}
         </div>

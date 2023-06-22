@@ -96,5 +96,17 @@ class Post(db.Model):
         db.session.commit()
 
     def unlike_post(self, user):
-        db.session.remove(user)
+        self.liked.remove(user)
         db.session.commit()
+
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'body': self.body,
+            'img' : self.img_url,
+            'date_created': self.date_created,
+            'user_id': self.user_id,
+            'author' : self.author.username
+
+        }
+    

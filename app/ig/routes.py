@@ -28,6 +28,10 @@ def feed():
     # posts = Post.query.all()
     # posts = Post.query.order_by(Post.date_created.desc()).all()
     posts = Post.query.order_by(Post.date_created).all()[::-1]
+    for p in posts:
+        likes = p.liked.count()
+        p.likes = likes
+
     # print(posts)
 
     return render_template('feed.html', posts=posts)
@@ -36,6 +40,14 @@ def feed():
 @login_required
 def ind_post(post_id):
     post = Post.query.get(post_id)
+    likes = post.liked.count()
+    post.likes = likes
+    my_likes = current_user.liked
+    print(current_user.liked)
+    for m in my_likes:
+        if post.id == m.id:
+            post.like_flag = True
+
     if post:
         return render_template('post.html', p = post)
     else:
@@ -115,4 +127,15 @@ def like(post_id):
     return redirect(url_for('ig.feed'))
 
 
+@ig.route('/post/unlike/<int:post_id>')
+@login_required
+def unlike(post_id):
+    post = Post.query.get(post_id)
+    my_likes = current_user.liked
+    if post in my_likes:
+        post.unlike_post(current_user)
+        flash(f"We don't like this one anymore", 'warning')
+    else:
+        flash("You didn't like this one anyways . . . ", 'danger')
+    return redirect(url_for('ig.feed'))
 

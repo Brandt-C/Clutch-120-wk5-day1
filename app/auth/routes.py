@@ -33,7 +33,7 @@ def login():
         if form.validate():
             user_name = form.username.data
             password = form.password.data
-            print(user_name, password)
+            # print(user_name, password)
 
             user = User.query.filter_by(username=user_name).first()
             if user:
