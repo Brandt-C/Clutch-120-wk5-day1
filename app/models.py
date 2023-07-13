@@ -107,6 +107,70 @@ class Post(db.Model):
             'date_created': self.date_created,
             'user_id': self.user_id,
             'author' : self.author.username
-
         }
     
+class Movie(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    rating = db.Column(db.String)
+    img_url = db.Column(db.String)
+    price = db.Column(db.Numeric(8, 2))
+    genre = db.Column(db.String)
+    desc = db.Column(db.String)
+    length = db.Column(db.Integer)
+    trailer = db.Column(db.String)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+
+    def __init__(self, title, rating, img_url, price, genre, desc, length, trailer):
+        self.title = title
+        self.rating = rating
+        self.img_url = img_url
+        self.price = price
+        self.genre = genre
+        self.desc = desc
+        self.length = length
+        self.trailer = trailer
+    
+    def save_movie(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def save_changes(self):
+        db.session.commit()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'rating': self.rating,
+            'img_url': self.img_url,
+            'price':self.price, 
+            'genre':self.genre ,
+            'desc':self.desc ,
+            'length':self.length ,
+            'trailer':self.trailer,
+
+        }
+
+
+
+    
+class Bikes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    pic = db.Column(db.String)
+
+    def __init__(self, title, pic):
+        self.title = title
+        self.pic = pic
+
+    def save_me(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'pic' : self.pic
+        }

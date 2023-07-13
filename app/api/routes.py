@@ -1,6 +1,6 @@
 from flask import Blueprint, request, json
 
-from ..models import Post
+from ..models import Post, Movie, Bikes
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -41,4 +41,50 @@ def create_post_api():
     return {
         'status': 'ok',
         'message' : 'New post has been created!'
+    }
+
+@api.get('/movies')
+def get_movies():
+    movies = Movie.query.all()
+    movie_list = [m.to_dict() for m in movies]
+    return {
+        'status' : 'ok',
+        'movies' : movie_list
+    }
+
+@api.get('/post/<int:mov_id>')
+def get_mov_by_id(mov_id):
+    mov = Movie.query.get(mov_id)
+    if mov:
+        return {
+            'movie': mov.to_dict(),
+            'status': 'ok'
+        }
+    else:
+        return {
+            'status' : 'NOT ok',
+            'message' : 'there is no movie for that id'
+        }
+    
+@api.get('/post/<mov_title>')
+def get_mov_by_title(mov_title):
+    mov = Movie.query.filter_by(title=mov_title).first()
+    if mov:
+        return {
+            'movie': mov.to_dict(),
+            'status': 'ok'
+        }
+    else:
+        return {
+            'status' : 'NOT ok',
+            'message' : 'there is no movie for that id'
+        }
+
+@api.get('/bikes')
+def get_bikes():
+    bikes = Bikes.query.all()
+    bike_list = [b.to_dict() for b in bikes]
+    return {
+        'status' : 'ok',
+        'movies' : bike_list
     }
