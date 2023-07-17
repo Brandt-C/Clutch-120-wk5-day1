@@ -66,7 +66,7 @@ def get_mov_by_id(mov_id):
             'message' : 'there is no movie for that id'
         }
     
-@api.get('/post/<mov_title>')
+@api.get('/movie/<mov_title>')
 def get_mov_by_title(mov_title):
     mov = Movie.query.filter_by(title=mov_title).first()
     if mov:
