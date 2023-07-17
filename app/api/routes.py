@@ -52,7 +52,7 @@ def get_movies():
         'movies' : movie_list
     }
 
-@api.get('/post/<int:mov_id>')
+@api.get('/movie/<int:mov_id>')
 def get_mov_by_id(mov_id):
     mov = Movie.query.get(mov_id)
     if mov:
