@@ -10,6 +10,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_moment import Moment
 from .api.routes import api
+from .payments.routes import payments
 
 from flask_cors import CORS
 
@@ -39,6 +40,7 @@ moment = Moment(app)
 app.register_blueprint(auth)
 app.register_blueprint(ig)
 app.register_blueprint(api)
+app.register_blueprint(payments)
 
 from . import routes
 from . import models
