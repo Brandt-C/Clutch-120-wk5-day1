@@ -88,3 +88,25 @@ def get_bikes():
         'status' : 'ok',
         'movies' : bike_list
     }
+
+@api.post('/echoaxios')
+def echo_axios():
+    print(request)
+    data = request.get_json()
+    print(data)
+    return {
+        'status' : 'ok',
+        'axios_msg': 'it does work!',
+        'data': data
+    }
+
+@api.post('/echofetch')
+def echo_fetch():
+    print(request)
+    data = request.get_json()
+    print(data)
+    return {
+        'status' : 'ok',
+        'fetch_msg': 'Fetch works too!',
+        'data': data
+    }
