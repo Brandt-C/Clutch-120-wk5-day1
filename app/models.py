@@ -60,6 +60,13 @@ class User(db.Model, UserMixin):
     def unfollow(self, user):
         self.following.remove(user)
         db.session.commit()
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'username' : self.username
+        }
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
