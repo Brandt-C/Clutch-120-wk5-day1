@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
+from secrets import token_hex
 
 db = SQLAlchemy()
 
@@ -29,6 +30,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     post = db.relationship('Post', backref='author', lazy=True)
+    apitoken = db.Column(db.String, default=None)
     #Hopefully this helps understand the backref!!!
     #for a post:
     # p3 = Post()
@@ -48,6 +50,7 @@ class User(db.Model, UserMixin):
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
+        self.apitoken = token_hex(16)
 
     def save_user(self):
         db.session.add(self)
