@@ -105,8 +105,30 @@ def echo_fetch():
     print(request)
     data = request.get_json()
     print(data)
+
     return {
         'status' : 'ok',
         'fetch_msg': 'Fetch works too!',
         'data': data
+    }
+
+
+@api.post('/getpostsbyuser')
+def get_posts_by_user():
+    print(request)
+    data = request.get_json()
+    print(data)
+    x = Post.query.filter_by(user_id=int(data['u_id'])).all()
+    p_list = [p.to_dict() for p in x]
+    if x:
+        print(x)
+        return {
+            'status' : 'ok',
+            'axios_msg': 'it does work!',
+            'data': p_list
+        }
+    else:
+        return {
+        'status' : 'NOT ok',
+        'message': 'no posts for that user id!',
     }
