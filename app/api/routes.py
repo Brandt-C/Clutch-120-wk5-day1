@@ -2,6 +2,7 @@ from flask import Blueprint, request, json
 
 from ..models import Post, Movie, Bikes, User
 from werkzeug.security import check_password_hash
+from ..apiauth import basic_auth, token_auth
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -160,3 +161,22 @@ def admin_login():
         'message': "username no existe",
         'error': 'no username match'
     }, 418
+
+@api.post('/token')
+@basic_auth.login_required
+def get_token():
+    token  = basic_auth.current_user().apitoken
+    return {
+        'status':'ok',
+        'message' : "That's a user, here have a token",
+        'token' : token
+    }
+
+@api.post('/token-check')
+@token_auth.login_required
+def token_check():
+    user = token_auth.current_user()
+    return {
+        'status':'ok',
+        'message' : f"this token is vailid from {user.username}",
+    }
